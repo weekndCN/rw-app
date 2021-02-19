@@ -22,6 +22,8 @@ type (
 		Count(context.Context) (int64, error)
 		// Delete delete a user from auth table
 		Delete(context.Context, int64) error
+		// Create create a new user
+		Create(context.Context, *Auth) error
 	}
 	// AuthService auth service
 	AuthService interface {

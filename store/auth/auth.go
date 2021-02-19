@@ -10,6 +10,7 @@ import (
 
 var (
 	errNotFound    = errors.New("Not found user")
+	errExistUser   = errors.New("User exist in database already")
 	errInvalidAuth = errors.New("auth information is wrong")
 )
 
@@ -49,4 +50,16 @@ func (auth *authStore) Count(ctx context.Context) (int64, error) {
 // Delete delete a user from auth table
 func (auth *authStore) Delete(ctx context.Context, id int64) error {
 	return nil
+}
+
+// Create a new user to auth table
+func (auth *authStore) Create(ctx context.Context, register *core.Auth) error {
+	res := auth.db.Conn.Where("username=?", register.Username).Or("email=?", register.Email).Find(&core.Auth{})
+
+	if res.RowsAffected == 0 {
+		auth.db.Conn.Create(register)
+		return nil
+	}
+
+	return errExistUser
 }
