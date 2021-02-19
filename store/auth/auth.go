@@ -2,24 +2,37 @@ package auth
 
 import (
 	"context"
+	"errors"
 
 	"github.com/weekndCN/rw-app/core"
 	"github.com/weekndCN/rw-app/store/db"
 )
+
+var (
+	errNotFound    = errors.New("Not found user")
+	errInvalidAuth = errors.New("auth information is wrong")
+)
+
+type authStore struct {
+	db *db.DB
+}
 
 // New return a auth data store instance
 func New(db *db.DB) core.AuthStore {
 	return &authStore{db}
 }
 
-type authStore struct {
-	db *db.DB
-}
-
 // Login auth to app system
 func (auth *authStore) Login(ctx context.Context, username string, password string) error {
-	//out := &core.Auth{Username: username, Password: password}
-	//auth.db.AutoMigrate(&core.Auth{})
+	// SELECT * FROM auths where password=<passwor> and (username=<username> or email="username")
+	res := auth.db.Conn.Where("password=? and username=?", password, username).Or("password=? and email=?", password, username).Find(&core.Auth{})
+	if res.Error != nil {
+		return res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return errNotFound
+	}
 	return nil
 }
 

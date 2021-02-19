@@ -14,7 +14,7 @@ type (
 
 	// AuthStore auth to app api operations
 	AuthStore interface {
-		// Login login app using auth way(username/password or email/password)
+		// Login to system
 		Login(ctx context.Context, username string, password string) error
 		// Find find a specified user by id
 		Find(context.Context, int64) (*Auth, error)
@@ -22,5 +22,12 @@ type (
 		Count(context.Context) (int64, error)
 		// Delete delete a user from auth table
 		Delete(context.Context, int64) error
+	}
+	// AuthService auth service
+	AuthService interface {
+		// Login to system
+		Login() error
+		// logout from system
+		Logout() error
 	}
 )
