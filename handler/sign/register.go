@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/sirupsen/logrus"
@@ -19,6 +20,7 @@ func HandleRegister(auth core.AuthStore) http.HandlerFunc {
 		}
 
 		if err := auth.Create(ctx, authinfo); err != nil {
+			fmt.Println(err)
 			logrus.Debugln("Register failed")
 			return
 		}

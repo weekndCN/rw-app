@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	"github.com/weekndCN/rw-app/handler/api"
+	"github.com/weekndCN/rw-app/handler"
 	"github.com/weekndCN/rw-app/store/auth"
 	"github.com/weekndCN/rw-app/store/dbtest"
 )
@@ -27,7 +27,7 @@ func main() {
 	flag.Parse()
 	// test database connect
 	db, _ := dbtest.Open()
-	svc := api.New(auth.New(db))
+	svc := handler.New(auth.New(db))
 
 	//Http server
 	server := &http.Server{
@@ -35,7 +35,7 @@ func main() {
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
 		IdleTimeout:  time.Second * 60,
-		Handler:      api.Handler(svc),
+		Handler:      handler.Handler(svc),
 	}
 
 	logrus.WithFields(
@@ -87,7 +87,7 @@ func initLogging() {
 		})
 	default:
 		logrus.SetFormatter(&logrus.JSONFormatter{
-			PrettyPrint: false,
+			PrettyPrint: true,
 		})
 	}
 }
