@@ -5,7 +5,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/weekndCN/rw-app/core"
-	sign "github.com/weekndCN/rw-app/handler/sign"
+	web "github.com/weekndCN/rw-app/handler/web"
 	"github.com/weekndCN/rw-app/logger"
 )
 
@@ -26,8 +26,8 @@ func Handler(s Server) http.Handler {
 	r := mux.NewRouter()
 	mux.CORSMethodMiddleware(r)
 	r.Use(logger.Middleware)
-	r.HandleFunc("/login", sign.HandleLogin(s.Auths)).Methods(http.MethodPost)
-	r.HandleFunc("/register", sign.HandleRegister(s.Auths)).Methods(http.MethodPost)
+	r.HandleFunc("/login", web.HandleLogin(s.Auths)).Methods(http.MethodPost)
+	r.HandleFunc("/register", web.HandleRegister(s.Auths)).Methods(http.MethodPost)
 	//r.Path("/metrics").Handler(promhttp.Handler())
 	//r.Use(auth.HandleAuthMiddler())
 	return r

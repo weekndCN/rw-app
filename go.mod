@@ -3,6 +3,7 @@ module github.com/weekndCN/rw-app
 go 1.14
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/segmentio/ksuid v1.0.3
 	github.com/sirupsen/logrus v1.8.0

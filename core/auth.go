@@ -5,8 +5,7 @@ import "context"
 type (
 	// Auth auth information table(using email or username to login)
 	Auth struct {
-		ID       int    `json:"-" gorm:"primary_key"`
-		UserID   int64  `json:"userid"`
+		ID       int64  `json:"-" gorm:"primary_key"`
 		Username string `json:"username"`
 		Password string `json:"-"`
 		Email    string `json:"email"`
@@ -15,7 +14,7 @@ type (
 	// AuthStore auth to app api operations
 	AuthStore interface {
 		// Login to system
-		Login(ctx context.Context, username string, password string) error
+		Login(ctx context.Context, username string, password string) (*Auth, error)
 		// Find find a specified user by id
 		Find(context.Context, int64) (*Auth, error)
 		// Count count user total number

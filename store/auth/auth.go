@@ -24,17 +24,18 @@ func New(db *db.DB) core.AuthStore {
 }
 
 // Login auth to app system
-func (auth *authStore) Login(ctx context.Context, username string, password string) error {
+func (auth *authStore) Login(ctx context.Context, username string, password string) (*core.Auth, error) {
 	// SELECT * FROM auths where password=<passwor> and (username=<username> or email="username")
-	res := auth.db.Conn.Where("password=? and username=?", password, username).Or("password=? and email=?", password, username).Find(&core.Auth{})
+	var user core.Auth
+	res := auth.db.Conn.Table("auths").Where("password=? and username=?", password, username).Or("password=? and email=?", password, username).Scan(&user)
 	if res.Error != nil {
-		return res.Error
+		return nil, res.Error
 	}
 
 	if res.RowsAffected == 0 {
-		return errNotFound
+		return nil, errNotFound
 	}
-	return nil
+	return &user, nil
 }
 
 // Find find a suer
@@ -57,8 +58,13 @@ func (auth *authStore) Create(ctx context.Context, register *core.Auth) error {
 	res := auth.db.Conn.Where("username=?", register.Username).Or("email=?", register.Email).Find(&core.Auth{})
 
 	if res.RowsAffected == 0 {
-		auth.db.Conn.Create(register)
+		reg := auth.db.Conn.Create(register)
+		if reg.Error != nil {
+			return reg.Error
+		}
+
 		return nil
+
 	}
 
 	return errExistUser
