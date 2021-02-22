@@ -13,6 +13,7 @@ import (
 	"github.com/weekndCN/rw-app/handler"
 	"github.com/weekndCN/rw-app/store/auth"
 	"github.com/weekndCN/rw-app/store/dbtest"
+	"github.com/weekndCN/rw-app/store/file"
 )
 
 // graceWait is the time duration
@@ -27,7 +28,7 @@ func main() {
 	flag.Parse()
 	// test database connect
 	db, _ := dbtest.Open()
-	svc := handler.New(auth.New(db))
+	svc := handler.New(auth.New(db), file.New(db))
 
 	//Http server
 	server := &http.Server{

@@ -43,13 +43,14 @@ func BadRequest(w http.ResponseWriter, err error) {
 
 // BadRequestf .
 func BadRequestf(w http.ResponseWriter, format string, a ...interface{}) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	ErrorCode(w, fmt.Errorf(format, a...), 400)
 }
 
 // JSON .
 func JSON(w http.ResponseWriter, v interface{}, status int) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Content-Type", "application/json")
+	//w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	enc := json.NewEncoder(w)
 	enc.Encode(v)

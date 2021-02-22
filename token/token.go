@@ -75,10 +75,20 @@ func ParseToken(tokenString string) (*Claims, error) {
 
 // extractToken extract token from http request header
 func extractToken(r *http.Request) string {
-	bearer := r.Header.Get("Authorization")
+	// http 2.0 header is authorization
+	// http 1.x header is Authorization
+	bearer := r.Header.Get("authorization")
+
+	fmt.Println("bearer", bearer)
+	if bearer == "" {
+		bearer = r.Header.Get("Authorization")
+	}
+
 	if bearer == "" {
 		bearer = r.FormValue("access_token")
 	}
+
+	fmt.Println("token", bearer)
 	return strings.TrimPrefix(bearer, "Bearer ")
 }
 
@@ -86,6 +96,7 @@ func extractToken(r *http.Request) string {
 func Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		token := extractToken(r)
+		fmt.Println(token)
 		if token == "" {
 			w.WriteHeader(http.StatusUnauthorized)
 			w.Write([]byte("request is Unauthorized"))
