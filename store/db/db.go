@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -25,7 +26,12 @@ func Open(driver, dsn string) (*DB, error) {
 	}
 	// sql pool
 	sqlDB, err := db.DB()
-	sqlDB.Ping()
+	if err != nil {
+		return nil, err
+	}
+	err = sqlDB.Ping()
+
+	fmt.Println(dsn)
 
 	if err != nil {
 		return nil, err
