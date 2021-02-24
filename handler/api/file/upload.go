@@ -54,12 +54,13 @@ func HandleUpload(fs core.FileStore) http.HandlerFunc {
 			}
 
 			f := &core.File{
-				User:     "weeknd",
-				Location: path.Join(dir, file.Filename),
-				Name:     file.Filename,
-				Size:     file.Size,
-				CreateAt: time.Now(),
-				Type:     filepath.Ext(file.Filename)[1:],
+				User:       "weeknd",
+				Location:   path.Join(dir, file.Filename),
+				Name:       file.Filename,
+				Size:       file.Size,
+				CreateAt:   time.Now(),
+				CreateDate: time.Now().String()[0:10],
+				Type:       filepath.Ext(file.Filename)[1:],
 			}
 
 			err = fs.Create(ctx, f)
