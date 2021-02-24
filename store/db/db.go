@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 // DB struct
@@ -17,6 +18,7 @@ func Open(driver, dsn string) (*DB, error) {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		// generate sql but no execute
 		DryRun: false,
+		Logger: logger.Default.LogMode(logger.Silent),
 	})
 	if err != nil {
 		return nil, err

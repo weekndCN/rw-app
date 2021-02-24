@@ -1,7 +1,7 @@
 package file
 
 import (
-	"mime/multipart"
+	"context"
 	"testing"
 
 	"github.com/weekndCN/rw-app/core"
@@ -22,6 +22,7 @@ func TestFile(t *testing.T) {
 	}
 }
 
+/*
 func TestSaveDisk(t *testing.T) {
 	file := &multipart.FileHeader{
 		Filename: "test",
@@ -34,6 +35,7 @@ func TestSaveDisk(t *testing.T) {
 		t.Error(err)
 	}
 }
+*/
 
 func TestFileList(t *testing.T) {
 	db, err := dbtest.Open()
@@ -48,4 +50,26 @@ func TestFileList(t *testing.T) {
 	if res.Error != nil {
 		t.Error(res.Error)
 	}
+}
+
+func TestFilter(t *testing.T) {
+	var ctx context.Context
+	filter := &core.File{
+		Name: "weeknd",
+	}
+
+	db, err := dbtest.Open()
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	fs := New(db)
+
+	_, err = fs.Find(ctx, filter)
+
+	if err != nil {
+		t.Error(err)
+	}
+
 }

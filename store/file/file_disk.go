@@ -28,7 +28,7 @@ func SaveDisk(file *multipart.FileHeader, dir string) error {
 
 	if dir != "" {
 		// create directory if custom directory
-		if err := os.MkdirAll(path.Join(uploadDir, dir), 0644); err != nil {
+		if err := os.MkdirAll(path.Join(uploadDir, dir), os.ModePerm); err != nil {
 			return err
 		}
 	}
@@ -64,7 +64,7 @@ func SaveDisk(file *multipart.FileHeader, dir string) error {
 		return err
 	}
 
-	//defer fd.Close()
+	defer fd.Close()
 
 	_, err = io.Copy(fd, f)
 	if err != nil {

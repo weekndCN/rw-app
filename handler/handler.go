@@ -36,6 +36,7 @@ func Handler(s Server) http.Handler {
 	r.Handle("/", token.Middleware(r))
 	r.HandleFunc("/file/upload", file.HandleUpload(s.Files)).Methods(http.MethodPost, http.MethodOptions)
 	r.HandleFunc("/file/list", file.HandleList(s.Files)).Methods(http.MethodGet)
+	r.PathPrefix("/download").Handler(file.HandleDownload())
 	//r.Path("/metrics").Handler(promhttp.Handler())
 	return r
 }

@@ -20,16 +20,18 @@ type (
 		Location string `json:"location"`
 		// file type
 		Type string `json:"type"`
-		// create date
+		// create full time
 		CreateAt time.Time `json:"create_at"`
+		// create day
+		CreateDate string `json:"create_date"`
 	}
 
 	// FileStore abstract file methods
 	FileStore interface {
 		// Create store file info to data store
 		Create(ctx context.Context, file *File) error
-		// Find return a file from data store
-		Find(ctx context.Context) error
+		// Find return file from data store with specified filter
+		Find(ctx context.Context, filter *File) (*[]File, error)
 		// Delete delete a file from data store
 		Delete(ctx context.Context) error
 		// List list all files from data store

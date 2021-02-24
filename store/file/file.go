@@ -28,8 +28,16 @@ func (f *fileStore) Create(ctx context.Context, file *core.File) error {
 }
 
 // Find return a file
-func (f *fileStore) Find(context.Context) error {
-	return nil
+func (f *fileStore) Find(ctx context.Context, filter *core.File) (*[]core.File, error) {
+	// GORM will only query with non-zero(0, '') fields
+	// if need query zero fields using map[string]interface{} insteaded
+	var files []core.File
+	res := f.db.Conn.Where(filter).Table("files").Find(&files)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return &files, nil
 }
 
 //  Delete delete a file from data store

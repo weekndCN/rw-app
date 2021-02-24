@@ -1,0 +1,57 @@
+10.100.13.192
+
+
+
+
+
+kubectl apply -f tulip-bjcd-product.yaml
+kubectl apply -f tulip-fintech-product.yaml
+kubectl apply -f tulip-forwork-product.yaml
+
+kubectl apply -f tulip-jimei-product.yaml
+kubectl apply -f tulip-jshj-product.yaml
+kubectl apply -f tulip-kdoffice-product.yaml
+
+kubectl apply -f tulip-seazen-product.yaml
+kubectl apply -f tulip-show-product.yaml
+kubectl apply -f tulip-space-product.yaml
+
+kubectl apply -f tulip-wangu-product.yaml
+kubectl apply -f tulip-ykite-product.yaml
+
+
+
+./mydb sql -d fintech,pnp,xnode,cntel,ykite,ntzc,freen,uo,broker,bjcd,jshj,seazen,uv,xy,show,wangu,forwork,space -s source tulip_sql/
+
+
+
+
+./mydb exp -d bjcd,demo,fintech,forwork,jimei,jshj,kdoffice,seazen,show,space,wangu,ykite,tulip_template
+
+
+
+
+./mydb sql -d bjcd,fintech,forwork,jimei,jshj,kdoffice,seazen,show,space,wangu,ykite -s source tulip_sql/tulip_db-210204-4.2.64-DDL.sql
+
+./mydb sql -d bjcd,fintech,forwork,jimei,jshj,kdoffice,seazen,show,space,wangu,ykite -s source tulip_sql/tulip_db-210204-4.2.64-DML.sql
+
+
+
+./mydb sql -d tulip_template -s source tulip_sql/tulip_db-210208-4.2.66-template.sql
+
+
+128+48
+
+176 * 0.2
+
+35.2
+
+
+
+./mydb sql -d demo -s source tulip_sql/tulip_db-210208-4.2.66-DDL.sql
+
+
+./mydb sql -d tulip_template -s source tulip_sql/tulip_db-210208-4.2.66-template.sql
+
+
+./mydb sql -d bjcd,fintech,forwork,jimei,jshj,kdoffice,seazen,show,space,wangu,ykite -s source tulip_sql/tulip_db-210208-4.2.66-DDL.sql
