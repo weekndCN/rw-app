@@ -5,6 +5,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/weekndCN/rw-app/core"
+	"github.com/weekndCN/rw-app/handler/api/docker"
 	"github.com/weekndCN/rw-app/handler/api/file"
 	web "github.com/weekndCN/rw-app/handler/web"
 	"github.com/weekndCN/rw-app/logger"
@@ -36,6 +37,10 @@ func Handler(s Server) http.Handler {
 	r.Handle("/", token.Middleware(r))
 	r.HandleFunc("/file/upload", file.HandleUpload(s.Files)).Methods(http.MethodPost, http.MethodOptions)
 	r.HandleFunc("/file/list", file.HandleList(s.Files)).Methods(http.MethodGet)
+	r.HandleFunc("/docker/tail", docker.HandleDockerTail()).Methods(http.MethodGet)
+	r.HandleFunc("/docker/list", docker.HandleDockerList()).Methods(http.MethodGet)
+	r.HandleFunc("/docker/start/{id}", docker.HandleDockerStart()).Methods(http.MethodGet)
+	r.HandleFunc("/docker/stop/{id}", docker.HandleDockerStop()).Methods(http.MethodGet)
 	r.PathPrefix("/download").Handler(file.HandleDownload())
 	//r.Path("/metrics").Handler(promhttp.Handler())
 	return r
