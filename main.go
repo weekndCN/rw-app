@@ -24,7 +24,7 @@ func main() {
 	// inital log
 	initLogging()
 	// server set up
-	flag.DurationVar(&graceWait, "graceful-timeout", time.Second*30, "server wait for existing connections to finish")
+	flag.DurationVar(&graceWait, "graceful-timeout", time.Second*5, "server wait for existing connections to finish")
 	flag.Parse()
 	// test database connect
 	db, _ := dbtest.Open()

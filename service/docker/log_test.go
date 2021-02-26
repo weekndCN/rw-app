@@ -8,8 +8,8 @@ import (
 )
 
 func TestTail(t *testing.T) {
-	var ctx context.Context
-	reader, err := Tail(ctx, "28cb50796bce")
+	ctx := context.Background()
+	reader, err := Tail(ctx, "640e686a352d")
 	if err != nil {
 		t.Error(err)
 	}
